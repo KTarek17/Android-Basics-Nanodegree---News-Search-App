@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="query_hint">What would like to know about?</string>
+    <string name="searchButtonDescription">Search Button</string>
 </resources>
