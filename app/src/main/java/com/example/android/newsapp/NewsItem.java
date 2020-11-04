@@ -39,7 +39,7 @@ public class NewsItem {
     public NewsItem(JSONObject jsonObject) throws JSONException {
 
         /* In the Guardian API, author names are sometimes added at the end of the title,
-         * separated by "|". The following section of code check the title to see if the author's
+         * separated by "|". The following section of code checks the title to see if the author's
          * name is provided, splitting the string and assigning it to the correct field, or
          * assigns the whole string to the title field if no author name is provided.
          */
@@ -65,8 +65,8 @@ public class NewsItem {
             this.bodyTextSummary = "";
     }
 
-    //TODO change webPublicationDate to long and implement parseDate method
-//    private long parseDate(String webPublicationDate) {
+    //TODO Implement parseDate method
+//    private String parseDate(String webPublicationDate) {
 //
 //    }
 

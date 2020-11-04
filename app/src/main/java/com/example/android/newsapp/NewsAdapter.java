@@ -74,8 +74,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             section.setText(currentNewsItem.getSection());
             datePublished.setText(currentNewsItem.getDatePublished());
 
-            //TODO fix this after you add the HTTP stuff
-            //if there is no body summary, exclude the body summary text view from view holder,
+            //TODO Fix this after you add the HTTP stuff
+            //If there is no body summary, exclude the body summary text view from view holder,
             //then add padding to the section text view to make it look nicer
             if (currentNewsItem.getBodyTextSummary().isEmpty()) {
                 bodyTextSummary.setVisibility(View.GONE);
