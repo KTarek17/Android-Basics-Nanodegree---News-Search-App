@@ -7,6 +7,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +38,11 @@ public class QueryUtils {
     //endregion
 
     /**
-     * Utility method used to build the query URL based on the user preferences
+     * Utility method used to build the URL based on the user preferences
      *
-     * @return String representing the URL used to query The Guardian API
+     * @return URL object used to initiate an HTTP request from The Guardian API
      */
-    public static String getQueryUrlString() {
+    public static URL getRequestUrl() {
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
 
         Uri.Builder uriBuilder = baseUri.buildUpon();
@@ -45,19 +53,28 @@ public class QueryUtils {
         uriBuilder.appendQueryParameter("order-by", queryOrderBy);
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_API_KEY);
 
-        String finalUrl = uriBuilder.toString();
+        URL url = null;
+        try {
+            url = new URL(uriBuilder.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-        Log.i(TAG, "Final Url = " + finalUrl);
+        if (url != null)
+            Log.i(TAG, "Final Url = " + url.toString());
+        else
+            Log.e(TAG, "Url was equal to null");
 
-        return finalUrl;
+        return url;
     }
 
     /**
      * Accepts a JSON Response in the form of a string, then parses it into a list of
      * {@link NewsItem}s
-     * @param jsonResponse The JSON Response provided by the URL query
+     *
+     * @param jsonResponse The JSON Response provided by {@link #makeHttpRequest(URL)}
      * @return A list of {@link NewsItem}s if the JSON Response is valid,
-     *         or null otherwise
+     * or null otherwise
      */
     public static List<NewsItem> parseJsonResponse(String jsonResponse) throws JSONException {
         //TODO remove this line
@@ -81,10 +98,76 @@ public class QueryUtils {
 
         List<NewsItem> newsItems = new ArrayList<>(queryPageSize);
         JSONArray results = response.getJSONArray("results");
-        for(int i = 0; i < results.length(); i++)
+        for (int i = 0; i < results.length(); i++)
             newsItems.add(new NewsItem(results.getJSONObject(i)));
 
         return newsItems;
+    }
+
+    /**
+     * IMPORTANT: This method came from the Soonami app (Lesson 2, Course 5 of the "Android Basics
+     * by Google" Nanodegree)
+     * Utility method used to initiate an HTTP request from The Guardian API
+     *
+     * @param url URL object built but the {@link #getRequestUrl()} method
+     * @return JSON Response from The Guardian API
+     */
+    public static String makeHttpRequest(URL url) throws IOException {
+        String jsonResponse = "";
+
+        //return early if provided url is null
+        if (url == null)
+            return jsonResponse;
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.connect();
+
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else
+                Log.e(TAG, "Error! Response code: " + urlConnection.getResponseCode());
+
+        } catch (IOException e) {
+            Log.e(TAG, "Problem retrieving the JSON Response", e);
+        } finally {
+            if (urlConnection != null)
+                urlConnection.disconnect();
+            if (inputStream != null)
+                inputStream.close();
+        }
+
+        return jsonResponse;
+    }
+
+    /**
+     * IMPORTANT: This method came from the Soonami app (Lesson 2, Course 5 of the "Android Basics
+     * by Google" Nanodegree)
+     * Private utility method used to get a string from an {@link InputStream}
+     *
+     * @param inputStream Input stream
+     * @return a string containing the content of the input stream
+     * @throws IOException Input output exception
+     */
+    private static String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder strBuilder = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                strBuilder.append(line);
+                line = reader.readLine();
+            }
+        }
+        return strBuilder.toString();
     }
 
     public static void setQuery(String query) {
