@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="smallPadding">8dp</dimen>
+    <dimen name="smallMarginPadding">8dp</dimen>
+    <dimen name="dimenTitleSize">24sp</dimen>
+    <dimen name="dimenSecondaryTextSize">18sp</dimen>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Do not use this style directly! It is used as a parent to the following styles  -->
+    <style name="baseTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/smallMarginPadding</item>
+    </style>
+
+    <style name="styleTitle" parent="baseTextStyle">
+        <item name="android:textSize">@dimen/dimenTitleSize</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="styleSecondaryText" parent="baseTextStyle">
+        <item name="android:textSize">@dimen/dimenSecondaryTextSize</item>
+    </style>
+
+    <style name="styleBodyTextSummary" parent="baseTextStyle">
+        <item name="android:padding">@dimen/smallMarginPadding</item>
+    </style>
+</resources>

@@ -5,25 +5,26 @@ import org.json.JSONObject;
 
 public class NewsItem {
     final private String title;
-    final private String sectionName;
-    final private String datePublished;
-    final private String authorName;
+    final private String author;
+    final private String section;
     final private String webUrlString;
+    final private String datePublished;
     final private String bodyTextSummary;
 
     /**
      * Standard constructor
-     * @param title Title of the {@link NewsItem}
-     * @param sectionName Name of the section, the {@link NewsItem} is related to
-     * @param datePublished A string representing the date {@link NewsItem} was published
-     * @param authorName Name of the author of the {@link NewsItem}
-     * @param webURL String representation of the URL leading to the {@link NewsItem}
+     *
+     * @param title           Title of the {@link NewsItem}
+     * @param author          Name of the author of the {@link NewsItem}
+     * @param section         Name of the section, the {@link NewsItem} is related to
+     * @param webURL          String representation of the URL leading to the {@link NewsItem}
+     * @param datePublished   A string representing the date {@link NewsItem} was published
      * @param bodyTextSummary The textual summary of the {@link NewsItem}
      */
-    public NewsItem(String title, String sectionName, String datePublished, String authorName, String webURL, String bodyTextSummary) {
+    public NewsItem(String title, String author, String section, String webURL, String datePublished, String bodyTextSummary) {
         this.title = title;
-        this.authorName = authorName;
-        this.sectionName = sectionName;
+        this.author = author;
+        this.section = section;
         this.webUrlString = webURL;
         this.datePublished = datePublished;
         this.bodyTextSummary = bodyTextSummary;
@@ -43,17 +44,18 @@ public class NewsItem {
          * assigns the whole string to the title field if no author name is provided.
          */
         String titleAuthorString = jsonObject.getString("webTitle");
-        if(titleAuthorString.contains("|")){
+        if (titleAuthorString.contains("|")) {
             this.title = titleAuthorString.substring(0, titleAuthorString.indexOf("|") - 1);
-            this.authorName = titleAuthorString.substring(titleAuthorString.indexOf("|") + 1, titleAuthorString.length() - 1);
+            this.author = titleAuthorString.substring(titleAuthorString.indexOf("|") + 1, titleAuthorString.length() - 1);
         } else {
             this.title = titleAuthorString;
-            this.authorName = null;
+            this.author = "";
         }
 
-        this.sectionName = jsonObject.getString("sectionName");
+        this.section = jsonObject.getString("sectionName");
         this.webUrlString = jsonObject.getString("webUrl");
         this.datePublished = jsonObject.getString("webPublicationDate");
+
         this.bodyTextSummary = jsonObject.getJSONObject("blocks").getJSONArray("body")
                                 .getJSONObject(1).getString("bodyTextSummary");
     }
@@ -67,12 +69,12 @@ public class NewsItem {
         return title;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public String getAuthor() {
+        return author;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public String getSection() {
+        return section;
     }
 
     public String getWebUrlString() {
@@ -81,5 +83,9 @@ public class NewsItem {
 
     public String getDatePublished() {
         return datePublished;
+    }
+
+    public String getBodyTextSummary() {
+        return bodyTextSummary;
     }
 }

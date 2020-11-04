@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardElevation="5dp"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
     app:cardUseCompatPadding="true">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:text="Something" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/newsCardTitle"
+            style="@style/styleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Something" />
+
+        <TextView
+            android:id="@+id/newsCardSection"
+            style="@style/styleSecondaryText"
+            app:layout_constraintEnd_toStartOf="@id/newsCardDatePublished"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
+            tools:text="Android" />
+
+        <TextView
+            android:id="@+id/newsCardDatePublished"
+            style="@style/styleSecondaryText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/newsCardSection"
+            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
+            tools:text="2020-09-28T06:00:06Z" />
+
+        <TextView
+            android:id="@+id/newsCardAuthor"
+            style="@style/styleSecondaryText"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newsCardDatePublished"
+            tools:text="Written by: XYZ" />
+
+        <TextView
+            android:id="@+id/newsCardBodyTextSummary"
+            style="@style/styleBodyTextSummary"
+            android:maxHeight="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
+            tools:text="@tools:sample/lorem/random" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
