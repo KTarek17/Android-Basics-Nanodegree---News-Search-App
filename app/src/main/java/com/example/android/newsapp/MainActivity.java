@@ -37,5 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
+        String test = QueryUtils.getQueryUrlString();
     }
 }

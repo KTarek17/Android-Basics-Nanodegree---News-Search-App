@@ -10,7 +10,6 @@
 
     <style name="styleTitle" parent="baseTextStyle">
         <item name="android:textSize">@dimen/dimenTitleSize</item>
-        <item name="android:singleLine">true</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/black</item>
     </style>

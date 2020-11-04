@@ -53,23 +53,41 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         private void bind(int position) {
             NewsItem currentNewsItem = newsList.get(position);
 
-            //TODO tie between {@link NewsItem} Object and view
             TextView title = currentItemView.findViewById(R.id.newsCardTitle);
             TextView author = currentItemView.findViewById(R.id.newsCardAuthor);
             TextView section = currentItemView.findViewById(R.id.newsCardSection);
             TextView datePublished = currentItemView.findViewById(R.id.newsCardDatePublished);
             TextView bodyTextSummary = currentItemView.findViewById(R.id.newsCardBodyTextSummary);
 
+            //region Tie ViewHolder with currentNewsItem
+
             title.setText(currentNewsItem.getTitle());
+
+            //if there is no author, exclude the author textView from view holder
             if (currentNewsItem.getAuthor().isEmpty())
                 author.setVisibility(View.GONE);
             else {
                 author.setVisibility(View.VISIBLE);
                 author.setText(currentNewsItem.getAuthor());
             }
+
             section.setText(currentNewsItem.getSection());
             datePublished.setText(currentNewsItem.getDatePublished());
-            bodyTextSummary.setText(currentNewsItem.getBodyTextSummary());
+
+            //TODO fix this after you add the HTTP stuff
+            //if there is no body summary, exclude the body summary text view from view holder,
+            //then add padding to the section text view to make it look nicer
+            if (currentNewsItem.getBodyTextSummary().isEmpty()) {
+                bodyTextSummary.setVisibility(View.GONE);
+                int dimension = (int) (context.getResources().getDimension(R.dimen.smallMarginPadding)
+                        / context.getResources().getDisplayMetrics().density);
+                section.setPadding(0, 0, 0, dimension);
+            } else {
+                bodyTextSummary.setVisibility(View.VISIBLE);
+                bodyTextSummary.setText(currentNewsItem.getBodyTextSummary());
+            }
+
+            //endregion
 
             currentItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

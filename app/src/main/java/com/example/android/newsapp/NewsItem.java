@@ -56,8 +56,13 @@ public class NewsItem {
         this.webUrlString = jsonObject.getString("webUrl");
         this.datePublished = jsonObject.getString("webPublicationDate");
 
-        this.bodyTextSummary = jsonObject.getJSONObject("blocks").getJSONArray("body")
-                                .getJSONObject(1).getString("bodyTextSummary");
+        JSONObject blocks = jsonObject.optJSONObject("blocks");
+
+        if (blocks != null) {
+            this.bodyTextSummary = blocks.getJSONArray("body").getJSONObject(1)
+                    .getString("bodyTextSummary");
+        } else
+            this.bodyTextSummary = "";
     }
 
     //TODO change webPublicationDate to long and implement parseDate method
