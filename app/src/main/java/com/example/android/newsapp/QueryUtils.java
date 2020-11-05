@@ -30,7 +30,7 @@ public class QueryUtils {
     //region Query Parameters
 
     //The query used. Search queries can separated by AND/OR/NOT, with %20 instead of spaces
-    private static String query = "android";
+    private static String query = "election";
 
     //The order with which the queries are organized by. Values: newest, oldest or relevance
     private static String queryOrderBy = "relevance";
@@ -84,7 +84,7 @@ public class QueryUtils {
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", query);
-        //uriBuilder.appendQueryParameter("show-blocks", "body");
+        uriBuilder.appendQueryParameter("show-blocks", "body");
         uriBuilder.appendQueryParameter("page-size", Integer.toString(queryPageSize));
         uriBuilder.appendQueryParameter("order-by", queryOrderBy);
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_API_KEY);
@@ -112,7 +112,7 @@ public class QueryUtils {
      * @param url URL object built but the {@link #getRequestUrl()} method
      * @return JSON Response from The Guardian API
      */
-    public static String makeHttpRequest(URL url) throws IOException {
+    private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
         //return early if provided url is null
@@ -178,10 +178,10 @@ public class QueryUtils {
      * @return A list of {@link NewsItem}s if the JSON Response is valid,
      * or null otherwise
      */
-    public static List<NewsItem> parseJsonResponse(String jsonResponse) throws JSONException {
+    private static List<NewsItem> parseJsonResponse(String jsonResponse) throws JSONException {
 
         //Checks if the response is null or empty, and returns early if it's true
-        if(jsonResponse == null || jsonResponse.isEmpty()){
+        if (jsonResponse == null || jsonResponse.isEmpty()) {
             Log.e(TAG, "JSON Response is null or empty");
             return null;
         }

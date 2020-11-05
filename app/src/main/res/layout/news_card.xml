@@ -25,11 +25,19 @@
             tools:text="Interesting Title" />
 
         <TextView
+            android:id="@+id/newsCardAuthor"
+            style="@style/styleSecondaryText"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
+            tools:text="Written by: XYZ" />
+
+        <TextView
             android:id="@+id/newsCardSection"
             style="@style/styleSecondaryText"
             app:layout_constraintEnd_toStartOf="@id/newsCardDatePublished"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
+            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
             tools:text="Android" />
 
         <TextView
@@ -37,25 +45,17 @@
             style="@style/styleSecondaryText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/newsCardSection"
-            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
+            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
             tools:text="2020-09-28T06:00:06Z" />
-
-        <TextView
-            android:id="@+id/newsCardAuthor"
-            style="@style/styleSecondaryText"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardDatePublished"
-            tools:text="Written by: XYZ" />
 
         <TextView
             android:id="@+id/newsCardBodyTextSummary"
             style="@style/styleBodyTextSummary"
-            android:maxHeight="200dp"
+            android:maxHeight="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
+            app:layout_constraintTop_toBottomOf="@id/newsCardSection"
             tools:text="@tools:sample/lorem/random" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,8 +45,8 @@ public class NewsItem {
          */
         String titleAuthorString = jsonObject.getString("webTitle");
         if (titleAuthorString.contains("|")) {
-            this.title = titleAuthorString.substring(0, titleAuthorString.indexOf("|") - 1);
-            this.author = titleAuthorString.substring(titleAuthorString.indexOf("|") + 1, titleAuthorString.length() - 1);
+            this.title = titleAuthorString.substring(0, titleAuthorString.indexOf("|"));
+            this.author = titleAuthorString.substring(titleAuthorString.indexOf("|") + 2);
         } else {
             this.title = titleAuthorString;
             this.author = "";
@@ -59,10 +59,28 @@ public class NewsItem {
         JSONObject blocks = jsonObject.optJSONObject("blocks");
 
         if (blocks != null) {
-            this.bodyTextSummary = blocks.getJSONArray("body").getJSONObject(1)
+            String bodyTextStr = blocks.getJSONArray("body").getJSONObject(0)
                     .getString("bodyTextSummary");
+            this.bodyTextSummary = reduceText(bodyTextStr);
         } else
             this.bodyTextSummary = "";
+    }
+
+    /**
+     * Utility method that reduces given string to fit only only 1 sentence after 256 characters
+     *
+     * @param str The string being reduced
+     * @return Reduced string
+     */
+    private String reduceText(String str) {
+        int firstDotAfter256Characters = str.indexOf(".", 256);
+
+        //If the string is less than 256 characters, or doesn't contain a dot after 256 characters
+        //then return early with the same string
+        if (firstDotAfter256Characters == -1)
+            return str;
+
+        return str.substring(0, firstDotAfter256Characters + 1);
     }
 
     //TODO Implement parseDate method

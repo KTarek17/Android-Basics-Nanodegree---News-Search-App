@@ -1,6 +1,9 @@
 package com.example.android.newsapp;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<NewsItem>> {
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -34,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        //TODO Implement loaders
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.i(TAG, "Checking For URL changes");
         checkForUrlChanges();
     }
 
@@ -51,11 +54,29 @@ public class MainActivity extends AppCompatActivity {
     private void checkForUrlChanges() {
         String newRequestURL = QueryUtils.getRequestUrl().toString();
         if (!currentRequestURL.equals(newRequestURL)) {
+            Log.i(TAG, "URL has changed!");
             currentRequestURL = newRequestURL;
-            //TODO If the URL has changed, perform a new request using loaders
-
+            getLoaderManager().initLoader(0, null, this);
         }
     }
 
+    @Override
+    public Loader<List<NewsItem>> onCreateLoader(int id, Bundle args) {
+        Log.i(TAG, "New loader created!");
+        return new NewsLoader(this);
+    }
 
+    @Override
+    public void onLoadFinished(Loader<List<NewsItem>> loader, List<NewsItem> data) {
+        newsList.clear();
+        newsList.addAll(data);
+        newsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<NewsItem>> loader) {
+        Log.i(TAG, "Loader reset!");
+        newsList.clear();
+        newsAdapter.notifyDataSetChanged();
+    }
 }

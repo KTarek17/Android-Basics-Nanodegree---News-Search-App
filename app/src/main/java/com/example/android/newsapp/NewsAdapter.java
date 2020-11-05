@@ -68,19 +68,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 author.setVisibility(View.GONE);
             else {
                 author.setVisibility(View.VISIBLE);
-                author.setText(currentNewsItem.getAuthor());
+                String authorStr = "By: " + currentNewsItem.getAuthor();
+                author.setText(authorStr);
             }
 
             section.setText(currentNewsItem.getSection());
             datePublished.setText(currentNewsItem.getDatePublished());
 
-            //TODO Fix this after you add the HTTP stuff
-            //If there is no body summary, exclude the body summary text view from view holder,
-            //then add padding to the section text view to make it look nicer
+            //If there is no body summary, exclude the scroll view containing the body summary text
+            //view from view holder, then add padding to the section text view to make it look nicer
             if (currentNewsItem.getBodyTextSummary().isEmpty()) {
                 bodyTextSummary.setVisibility(View.GONE);
-                int dimension = (int) (context.getResources().getDimension(R.dimen.smallMarginPadding)
-                        / context.getResources().getDisplayMetrics().density);
+                int dimension = (int) context.getResources().getDimension(R.dimen.smallMarginPadding);
                 section.setPadding(0, 0, 0, dimension);
             } else {
                 bodyTextSummary.setVisibility(View.VISIBLE);
