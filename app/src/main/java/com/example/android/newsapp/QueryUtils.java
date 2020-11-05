@@ -30,7 +30,7 @@ public class QueryUtils {
     //region Query Parameters
 
     //The query used. Search queries can separated by AND/OR/NOT, with %20 instead of spaces
-    private static String query = "election";
+    private static String query = "";
 
     //The order with which the queries are organized by. Values: newest, oldest or relevance
     private static String queryOrderBy = "relevance";

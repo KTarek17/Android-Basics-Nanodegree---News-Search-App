@@ -3,4 +3,5 @@
     <dimen name="smallMarginPadding">8dp</dimen>
     <dimen name="dimenTitleSize">20sp</dimen>
     <dimen name="dimenSecondaryTextSize">16sp</dimen>
+    <dimen name="dimenProgressBarSize">50dp</dimen>
 </resources>
