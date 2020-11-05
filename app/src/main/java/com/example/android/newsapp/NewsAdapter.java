@@ -42,6 +42,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return newsList.size();
     }
 
+    /**
+     * Clears the {@link #newsList} and notifies this adapter
+     */
+    public void clearNewsList() {
+        newsList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Clears the {@link #newsList}, adds all the elements from passed list then notifies the adapter
+     *
+     * @param newsList List of new elements to be added
+     */
+    public void addAllToNewsList(List<NewsItem> newsList) {
+        this.newsList.clear();
+        this.newsList.addAll(newsList);
+        notifyDataSetChanged();
+    }
+
     public class NewsViewHolder extends RecyclerView.ViewHolder {
         private final View currentItemView;
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<NewsItem>> {
 
-    private static final String TAG = MainActivity.class.getName();
+    private static final String TAG = "MainActivity";
 
     private String currentRequestURL = "";
 
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                query.clearFocus();
                 String queryStr = query.getText().toString();
                 String logMessage = "User entered: " + queryStr;
                 Log.d(TAG, logMessage);
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String newRequestURL = QueryUtils.getRequestUrl().toString();
         if (!currentRequestURL.equals(newRequestURL)) {
             Log.i(TAG, "URL has changed!");
+            showProgressBar();
             currentRequestURL = newRequestURL;
             getLoaderManager().initLoader(0, null, this).forceLoad();
         }
@@ -89,35 +91,44 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<NewsItem>> onCreateLoader(int id, Bundle args) {
         Log.i(TAG, "New loader created!");
-        return new NewsLoader(this, progressBar);
+        showProgressBar();
+        return new NewsLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<NewsItem>> loader, List<NewsItem> data) {
         Log.i(TAG, "onLoadFinished() has been called!");
-        progressBar.setVisibility(View.GONE);
-        newsList.clear();
-
         if (data.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            emptyView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            newsList.addAll(data);
+            showEmptyView();
+            newsAdapter.clearNewsList();
+        } else if (!newsList.containsAll(data)) {
+            showRecyclerView();
+            newsAdapter.addAllToNewsList(data);
         }
-
-        newsAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void onLoaderReset(Loader<List<NewsItem>> loader) {
         Log.i(TAG, "Loader reset!");
+        newsAdapter.clearNewsList();
+        showEmptyView();
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    private void showRecyclerView() {
         progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    private void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
-        newsList.clear();
-        newsAdapter.notifyDataSetChanged();
     }
 }

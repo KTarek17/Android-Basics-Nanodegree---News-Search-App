@@ -20,7 +20,7 @@ import java.util.List;
 
 public class QueryUtils {
 
-    private static final String TAG = QueryUtils.class.getName();
+    private static final String TAG = "QueryUtils";
 
     //This URL is used to connect to The Guardians API
     private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search";
