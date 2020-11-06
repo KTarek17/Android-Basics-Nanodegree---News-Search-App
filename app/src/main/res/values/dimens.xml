@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="smallMarginPadding">8dp</dimen>
-    <dimen name="dimenTitleSize">20sp</dimen>
-    <dimen name="dimenSecondaryTextSize">16sp</dimen>
+    <dimen name="dimenTitleSize">18sp</dimen>
+    <dimen name="dimenTrailTextSize">14sp</dimen>
+    <dimen name="dimenSecondaryTextSize">10sp</dimen>
     <dimen name="dimenProgressBarSize">50dp</dimen>
 </resources>

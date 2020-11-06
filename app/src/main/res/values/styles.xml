@@ -15,12 +15,13 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="styleSecondaryText" parent="baseTextStyle">
-        <item name="android:textSize">@dimen/dimenSecondaryTextSize</item>
+    <style name="styleTrailText" parent="baseTextStyle">
+        <item name="android:textSize">@dimen/dimenTrailTextSize</item>
         <item name="android:textColor">?attr/colorSecondaryVariant</item>
     </style>
 
-    <style name="styleBodyTextSummary" parent="baseTextStyle">
+    <style name="styleSecondaryText" parent="baseTextStyle">
         <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">@dimen/dimenSecondaryTextSize</item>
     </style>
 </resources>

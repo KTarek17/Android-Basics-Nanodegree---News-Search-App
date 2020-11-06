@@ -64,13 +64,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i(TAG, "Main Activity Created");
         initPrefs();
-
         currentRequestURL = QueryUtils.getRequestUrl().toString();
 
+        //Assign a new empty list, tie it to an adapter, then tie the adapter to the recycler view
         newsList = new ArrayList<>();
-        recyclerView = findViewById(R.id.recyclerView);
         newsAdapter = new NewsAdapter(newsList, this);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBar = findViewById(R.id.progressBar);
         showProgressBar();
 
+        //Assign connectivity manager, then check for connection
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else
             showEmptyView(R.string.no_internet);
 
+        //Set an onClickListener to tie between the edit text, search button and the recycler view
         EditText query = findViewById(R.id.query);
         ImageButton search = findViewById(R.id.searchButton);
         search.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * Method that initializes all the stuff related to app preferences
      */
     private void initPrefs() {
+        Log.i(TAG, "Initializing Preferences...");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String fromDate = sharedPreferences.getString(
                 getString(R.string.settings_from_date_key),
@@ -142,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "Checking For URL changes");
+
+        //On resume, check to see if the URL has changed
+        Log.i(TAG, "Checking For URL changes...");
         checkForUrlChanges();
     }
 
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return;
         }
 
+        //If the current URL has changed, or the empty view is displayed, force the loader to load again
         String newRequestURL = QueryUtils.getRequestUrl().toString();
         if (!currentRequestURL.equals(newRequestURL) || emptyView.getVisibility() == View.VISIBLE) {
             Log.i(TAG, "URL has changed!");
@@ -201,21 +208,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //region Visibility Helper Methods
 
-    private void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        emptyView.setVisibility(View.GONE);
-    }
-
+    /**
+     * Displays the {@link #recyclerView} and hides the other views
+     */
     private void showRecyclerView() {
-        progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
     }
 
-    private void showEmptyView(@StringRes int stringId) {
-        progressBar.setVisibility(View.GONE);
+    /**
+     * Displays the {@link #progressBar} and hides the other views
+     */
+    private void showProgressBar() {
         recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    /**
+     * Displays the {@link #emptyView}, hides the other views,  then sets it's text to appropriate message
+     *
+     * @param stringId String Resource Id linking to the appropriate string resource
+     *                 depending on whether there was no connection, or no query data
+     */
+    private void showEmptyView(@StringRes int stringId) {
+        recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setText(stringId);
     }

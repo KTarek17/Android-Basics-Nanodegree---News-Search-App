@@ -75,7 +75,6 @@ public class NewsItem {
      */
     private String parseDate(String webPublicationDate) {
         String date = "";
-
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
         try {
@@ -86,7 +85,6 @@ public class NewsItem {
             Log.e(TAG, "Data Error Occurred!", e);
             e.printStackTrace();
         }
-
         return date;
     }
 

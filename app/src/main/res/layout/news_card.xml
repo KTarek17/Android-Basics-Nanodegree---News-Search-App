@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@id/newsCardSection"
+            app:layout_constraintBottom_toBottomOf="@id/newsCardTrailText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleBackground" />
@@ -43,38 +43,38 @@
             tools:text="Interesting Title" />
 
         <TextView
+            android:id="@+id/newsCardTrailText"
+            style="@style/styleTrailText"
+            android:maxHeight="67dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleBackground"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
             android:id="@+id/newsCardAuthor"
             style="@style/styleSecondaryText"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardTitle"
             tools:text="Written by: XYZ" />
 
         <TextView
             android:id="@+id/newsCardSection"
             style="@style/styleSecondaryText"
-            app:layout_constraintEnd_toStartOf="@id/newsCardDatePublished"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
-            tools:text="Android" />
+            app:layout_constraintTop_toBottomOf="@+id/newsCardTrailText"
+            tools:text="Section" />
 
         <TextView
             android:id="@+id/newsCardDatePublished"
             style="@style/styleSecondaryText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/newsCardSection"
-            app:layout_constraintTop_toBottomOf="@id/newsCardAuthor"
-            tools:text="2020-09-28T06:00:06Z" />
-
-        <TextView
-            android:id="@+id/newsCardTrailText"
-            style="@style/styleBodyTextSummary"
-            android:maxHeight="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newsCardSection"
-            tools:text="@tools:sample/lorem/random" />
+            app:layout_constraintTop_toBottomOf="@id/newsCardTrailText"
+            tools:text="May 22, 2020" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
