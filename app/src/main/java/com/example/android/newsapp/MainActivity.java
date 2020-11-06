@@ -100,12 +100,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void initPrefs() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String orderBy = sharedPreferences.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
         int pageSize = Integer.parseInt(sharedPreferences.getString(
                 getString(R.string.settings_page_size_key),
                 getString(R.string.settings_page_size_default)));
 
+        Log.i(TAG, "orderBy = " + orderBy);
         Log.i(TAG, "pageSize = " + pageSize);
 
+        QueryUtils.setQueryOrderBy(orderBy);
         QueryUtils.setQueryPageSize(pageSize);
     }
 
