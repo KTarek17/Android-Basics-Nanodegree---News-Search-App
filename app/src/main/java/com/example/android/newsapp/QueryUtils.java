@@ -1,5 +1,6 @@
 package com.example.android.newsapp;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.util.Log;
 
@@ -15,8 +16,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class QueryUtils {
 
@@ -32,15 +37,15 @@ public class QueryUtils {
     //The query used. Search queries can separated by AND/OR/NOT, with %20 instead of spaces
     private static String query = "";
 
-    //The from and to date from which the news items are taken from. Format: yyyy-mm-dd
-    private static String fromDate = "2014-02-16";
-    private static String toDate = "2016-10-10";
+    //The from and to date from which the news items are taken from. Format: yyyy-MM-dd (DEFAULT = 2014-01-01, current day)
+    private static String fromDate;
+    private static String toDate;
 
-    //The order with which the queries are organized by. Values: newest, oldest or relevance
-    private static String queryOrderBy = "relevance";
+    //The order with which the queries are organized by. Values: newest, oldest or relevance (DEFAULT = relevance)
+    private static String queryOrderBy;
 
-    //The amount of items sent in 1 page. Range: 1-50
-    private static int queryPageSize = 10;
+    //The amount of items sent in 1 page. Range: 1-50 (DEFAULT = 10)
+    private static int queryPageSize;
 
     //endregion
 
@@ -210,19 +215,54 @@ public class QueryUtils {
         return newsItems;
     }
 
-    //region Setters for Preference Changes
-    //TODO add preferences and use these methods
+    /**
+     * IMPORTANT:- Source of this method: https://stackoverflow.com/questions/226910/how-to-sanity-check-a-date-in-java
+     * Simple method to check if the given date string is in the format we need
+     *
+     * @param date String representation of a date
+     * @return true if the date follows our standard, false otherwise
+     */
+    private static boolean isValidDate(String date) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 
+    //region Setters for Preference Changes
     public static void setQuery(String query) {
         QueryUtils.query = query;
     }
 
+    /**
+     * Checks to see if the given date is valid using {@link #isValidDate(String)}.
+     * if it's valid, sets the {@link #fromDate} to the passed value. Otherwise sets {@link #toDate} to 2014-01-01
+     *
+     * @param fromDate String representation of the "from" date as in "from *date* to *date*"
+     */
     public static void setFromDate(String fromDate) {
-        QueryUtils.fromDate = fromDate;
+        if (isValidDate(fromDate))
+            QueryUtils.fromDate = fromDate;
+        else
+            QueryUtils.fromDate = "2014-01-01";
     }
 
+    /**
+     * Checks to see if the given date is valid using {@link #isValidDate(String)}.
+     * if it's valid, sets the {@link #toDate} to the passed value. Otherwise sets {@link #toDate} to the current day
+     *
+     * @param toDate String representation of the "to" date as in "from *date* to *date*"
+     */
     public static void setToDate(String toDate) {
-        QueryUtils.toDate = toDate;
+        if (isValidDate(toDate))
+            QueryUtils.toDate = toDate;
+        else
+            QueryUtils.toDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     }
 
     public static void setQueryOrderBy(String queryOrderBy) {

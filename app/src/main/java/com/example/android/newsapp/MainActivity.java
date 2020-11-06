@@ -100,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void initPrefs() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fromDate = sharedPreferences.getString(
+                getString(R.string.settings_from_date_key),
+                getString(R.string.settings_from_date_default));
+        String toDate = sharedPreferences.getString(
+                getString(R.string.settings_to_date_key),
+                getString(R.string.settings_to_date_default));
         String orderBy = sharedPreferences.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default));
@@ -107,9 +113,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.settings_page_size_key),
                 getString(R.string.settings_page_size_default)));
 
-        Log.i(TAG, "orderBy = " + orderBy);
-        Log.i(TAG, "pageSize = " + pageSize);
+        Log.d(TAG, "fromDate = " + fromDate);
+        Log.d(TAG, "toDate = " + toDate);
+        Log.d(TAG, "orderBy = " + orderBy);
+        Log.d(TAG, "pageSize = " + pageSize);
 
+        QueryUtils.setFromDate(fromDate);
+        QueryUtils.setToDate(toDate);
         QueryUtils.setQueryOrderBy(orderBy);
         QueryUtils.setQueryPageSize(pageSize);
     }
@@ -148,14 +158,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<NewsItem>> onCreateLoader(int id, Bundle args) {
-        Log.i(TAG, "New loader created!");
+        Log.d(TAG, "New loader created!");
         showProgressBar();
         return new NewsLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<NewsItem>> loader, List<NewsItem> data) {
-        Log.i(TAG, "onLoadFinished() has been called!");
+        Log.d(TAG, "onLoadFinished() has been called!");
         if (data.isEmpty()) {
             showEmptyView(R.string.no_data);
             newsAdapter.clearNewsList();
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<NewsItem>> loader) {
-        Log.i(TAG, "Loader reset!");
+        Log.d(TAG, "Loader reset!");
         newsAdapter.clearNewsList();
         showEmptyView(R.string.no_data);
     }

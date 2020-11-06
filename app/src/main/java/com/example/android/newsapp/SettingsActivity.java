@@ -26,11 +26,17 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference pageSize = findPreference(getString(R.string.settings_page_size_key));
-            bindPreferenceSummaryToValue(pageSize);
+            Preference fromDate = findPreference(getString(R.string.settings_from_date_key));
+            bindPreferenceSummaryToValue(fromDate);
+
+            Preference toDate = findPreference(getString(R.string.settings_to_date_key));
+            bindPreferenceSummaryToValue(toDate);
 
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
+
+            Preference pageSize = findPreference(getString(R.string.settings_page_size_key));
+            bindPreferenceSummaryToValue(pageSize);
         }
 
         private void bindPreferenceSummaryToValue(Preference preference) {

@@ -13,10 +13,14 @@
 
     <!-- region Settings Strings -->
 
-    <!-- region Page Size -->
-    <string name="settings_page_size_label">Page Size (1 – 50)</string>
-    <string name="settings_page_size_key" translatable="false">page_size</string>
-    <string name="settings_page_size_default" translatable="false">10</string>
+    <!-- region Dates -->
+    <string name="settings_from_date_label">From (yyyy-MM-dd)</string>
+    <string name="settings_from_date_key" translatable="false">from_date</string>
+    <string name="settings_from_date_default" translatable="false" />
+
+    <string name="settings_to_date_label">To (yyyy-MM-dd)</string>
+    <string name="settings_to_date_key" translatable="false">to_date</string>
+    <string name="settings_to_date_default" translatable="false" />
     <!-- endregion -->
 
     <!-- region Order By -->
@@ -32,6 +36,12 @@
 
     <string name="settings_order_by_oldest_label">Oldest</string>
     <string name="settings_order_by_oldest_value">oldest</string>
+    <!-- endregion -->
+
+    <!-- region Page Size -->
+    <string name="settings_page_size_label">Page Size (1 – 50)</string>
+    <string name="settings_page_size_key" translatable="false">page_size</string>
+    <string name="settings_page_size_default" translatable="false">10</string>
     <!-- endregion -->
 
     <!-- endregion -->
