@@ -10,4 +10,9 @@
     <string name="no_internet">No Network Connection</string>
 
     <string name="settings_menu_item">Settings</string>
+
+    <string name="settings_page_size_label">Page Size</string>
+    <string name="settings_page_size_key" translatable="false">page_size</string>
+    <string name="settings_page_size_default" translatable="false">10</string>
+
 </resources>

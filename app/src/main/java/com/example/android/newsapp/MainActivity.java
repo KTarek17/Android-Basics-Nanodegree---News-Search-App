@@ -4,9 +4,11 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initPrefs();
+
         currentRequestURL = QueryUtils.getRequestUrl().toString();
 
         newsList = new ArrayList<>();
@@ -92,6 +96,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 checkForUrlChanges();
             }
         });
+    }
+
+    private void initPrefs() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int pageSize = Integer.parseInt(sharedPreferences.getString(
+                getString(R.string.settings_page_size_key),
+                getString(R.string.settings_page_size_default)));
+
+        Log.i(TAG, "pageSize = " + pageSize);
+
+        QueryUtils.setQueryPageSize(pageSize);
     }
 
     @Override
