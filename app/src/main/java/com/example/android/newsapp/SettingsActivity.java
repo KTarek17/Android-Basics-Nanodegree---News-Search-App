@@ -7,6 +7,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -37,6 +38,20 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference pageSize = findPreference(getString(R.string.settings_page_size_key));
             bindPreferenceSummaryToValue(pageSize);
+
+            Preference nightMode = findPreference(getString(R.string.settings_night_mode_key));
+            nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if ((Boolean) newValue)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    else
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    getActivity().recreate();
+                    return true;
+                }
+            });
+
         }
 
         private void bindPreferenceSummaryToValue(Preference preference) {

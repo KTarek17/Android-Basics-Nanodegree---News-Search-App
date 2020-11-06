@@ -44,6 +44,12 @@
     <string name="settings_page_size_default" translatable="false">10</string>
     <!-- endregion -->
 
+    <!-- region Night Mode Switch -->
+    <string name="settings_night_mode_label">Night Mode</string>
+    <string name="settings_night_mode_key">night_mode</string>
+    <string name="settings_night_mode_default">false</string>
+    <!-- endregion -->
+
     <!-- endregion -->
 
 </resources>

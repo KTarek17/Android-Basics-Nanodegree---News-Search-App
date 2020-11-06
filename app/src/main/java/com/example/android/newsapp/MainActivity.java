@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
+    /**
+     * Method that initializes all the stuff related to app preferences
+     */
     private void initPrefs() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String fromDate = sharedPreferences.getString(
@@ -113,15 +117,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.settings_page_size_key),
                 getString(R.string.settings_page_size_default)));
 
-        Log.d(TAG, "fromDate = " + fromDate);
-        Log.d(TAG, "toDate = " + toDate);
-        Log.d(TAG, "orderBy = " + orderBy);
-        Log.d(TAG, "pageSize = " + pageSize);
+        Log.i(TAG, "fromDate = " + fromDate);
+        Log.i(TAG, "toDate = " + toDate);
+        Log.i(TAG, "orderBy = " + orderBy);
+        Log.i(TAG, "pageSize = " + pageSize);
 
         QueryUtils.setFromDate(fromDate);
         QueryUtils.setToDate(toDate);
         QueryUtils.setQueryOrderBy(orderBy);
         QueryUtils.setQueryPageSize(pageSize);
+
+        boolean nightMode = sharedPreferences.getBoolean(
+                getString(R.string.settings_night_mode_key),
+                Boolean.parseBoolean(getString(R.string.settings_night_mode_default))
+        );
+        Log.i(TAG, "nightMode = " + nightMode);
+        if (nightMode)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
     }
 
     @Override
@@ -158,14 +173,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<NewsItem>> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "New loader created!");
+        Log.i(TAG, "New loader created!");
         showProgressBar();
         return new NewsLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<NewsItem>> loader, List<NewsItem> data) {
-        Log.d(TAG, "onLoadFinished() has been called!");
+        Log.i(TAG, "onLoadFinished() has been called!");
         if (data.isEmpty()) {
             showEmptyView(R.string.no_data);
             newsAdapter.clearNewsList();
@@ -177,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<NewsItem>> loader) {
-        Log.d(TAG, "Loader reset!");
+        Log.i(TAG, "Loader reset!");
         newsAdapter.clearNewsList();
         showEmptyView(R.string.no_data);
     }

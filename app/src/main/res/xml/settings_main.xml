@@ -2,7 +2,7 @@
 <!--suppress DeprecatedClassUsageInspection -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
-
+'
     <EditTextPreference
         android:defaultValue="@string/settings_from_date_default"
         android:inputType="text"
@@ -30,5 +30,10 @@
         android:key="@string/settings_page_size_key"
         android:selectAllOnFocus="true"
         android:title="@string/settings_page_size_label" />
+
+    <SwitchPreference
+        android:defaultValue="@string/settings_night_mode_default"
+        android:key="@string/settings_night_mode_key"
+        android:title="@string/settings_night_mode_label" />
 
 </PreferenceScreen>
