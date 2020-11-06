@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="main_activity_title">Search News</string>
+    <string name="settings_title">Search Settings</string>
+
     <string name="query_hint">What would you like to know about?</string>
-    <string name="searchButtonDescription">Search Button</string>
+    <string name="search_button_description">Search Button</string>
+
     <string name="no_data">Your Query Didn\'t Return Any Data</string>
     <string name="no_internet">No Network Connection</string>
+
+    <string name="settings_menu_item">Settings</string>
 </resources>

@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/query"
         app:layout_constraintBottom_toBottomOf="@id/query"
-        android:contentDescription="@string/searchButtonDescription" />
+        android:contentDescription="@string/search_button_description" />
 
     <RelativeLayout
         android:layout_width="match_parent"
