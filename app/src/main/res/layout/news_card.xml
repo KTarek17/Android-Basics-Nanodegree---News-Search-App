@@ -67,7 +67,7 @@
             tools:text="2020-09-28T06:00:06Z" />
 
         <TextView
-            android:id="@+id/newsCardBodyTextSummary"
+            android:id="@+id/newsCardTrailText"
             style="@style/styleBodyTextSummary"
             android:maxHeight="150dp"
             app:layout_constraintBottom_toBottomOf="parent"

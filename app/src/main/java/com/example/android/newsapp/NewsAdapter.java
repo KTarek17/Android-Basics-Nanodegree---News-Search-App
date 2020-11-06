@@ -76,7 +76,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             TextView author = currentItemView.findViewById(R.id.newsCardAuthor);
             TextView section = currentItemView.findViewById(R.id.newsCardSection);
             TextView datePublished = currentItemView.findViewById(R.id.newsCardDatePublished);
-            TextView bodyTextSummary = currentItemView.findViewById(R.id.newsCardBodyTextSummary);
+            TextView trailText = currentItemView.findViewById(R.id.newsCardTrailText);
 
             //region Tie ViewHolder with currentNewsItem
 
@@ -93,17 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             section.setText(currentNewsItem.getSection());
             datePublished.setText(currentNewsItem.getDatePublished());
-
-            //If there is no body summary, exclude the scroll view containing the body summary text
-            //view from view holder, then add padding to the section text view to make it look nicer
-            if (currentNewsItem.getBodyTextSummary().isEmpty()) {
-                bodyTextSummary.setVisibility(View.GONE);
-                int dimension = (int) context.getResources().getDimension(R.dimen.smallMarginPadding);
-                section.setPadding(0, 0, 0, dimension);
-            } else {
-                bodyTextSummary.setVisibility(View.VISIBLE);
-                bodyTextSummary.setText(currentNewsItem.getBodyTextSummary());
-            }
+            trailText.setText(currentNewsItem.getTrailText());
 
             //endregion
 

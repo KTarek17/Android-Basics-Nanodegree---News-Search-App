@@ -18,25 +18,25 @@ public class NewsItem {
     final private String section;
     final private String webUrlString;
     final private String datePublished;
-    final private String bodyTextSummary;
+    final private String trailText;
 
     /**
      * Standard constructor
      *
-     * @param title           Title of the {@link NewsItem}
-     * @param author          Name of the author of the {@link NewsItem}
-     * @param section         Name of the section, the {@link NewsItem} is related to
-     * @param webURL          String representation of the URL leading to the {@link NewsItem}
-     * @param datePublished   A string representing the date {@link NewsItem} was published
-     * @param bodyTextSummary The textual summary of the {@link NewsItem}
+     * @param title         Title of the {@link NewsItem}
+     * @param author        Name of the author of the {@link NewsItem}
+     * @param section       Name of the section, the {@link NewsItem} is related to
+     * @param webURL        String representation of the URL leading to the {@link NewsItem}
+     * @param datePublished A string representing the date {@link NewsItem} was published
+     * @param trailText     The trail text of the {@link NewsItem}
      */
-    public NewsItem(String title, String author, String section, String webURL, String datePublished, String bodyTextSummary) {
+    public NewsItem(String title, String author, String section, String webURL, String datePublished, String trailText) {
         this.title = title;
         this.author = author;
         this.section = section;
         this.webUrlString = webURL;
         this.datePublished = datePublished;
-        this.bodyTextSummary = bodyTextSummary;
+        this.trailText = trailText;
     }
 
     /**
@@ -64,35 +64,15 @@ public class NewsItem {
         this.section = jsonObject.getString("sectionName");
         this.webUrlString = jsonObject.getString("webUrl");
         this.datePublished = parseDate(jsonObject.getString("webPublicationDate"));
+        this.trailText = jsonObject.getJSONObject("fields").getString("trailText");
 
-        JSONObject blocks = jsonObject.optJSONObject("blocks");
-
-        if (blocks != null) {
-            String bodyTextStr = blocks.getJSONArray("body").getJSONObject(0)
-                    .getString("bodyTextSummary");
-            this.bodyTextSummary = reduceText(bodyTextStr);
-        } else
-            this.bodyTextSummary = "";
     }
 
     /**
-     * Utility method that reduces given string to fit only only 1 sentence after 256 characters
-     *
-     * @param str The string being reduced
-     * @return Reduced string
+     * Parses a given ISO8601 formatted date into a "MMM dd, yyyy" date format
+     * @param webPublicationDate ISO8601 date string
+     * @return "MMM dd, yyyy" date string
      */
-    private String reduceText(String str) {
-        int firstDotAfter256Characters = str.indexOf(".", 256);
-
-        //If the string is less than 256 characters, or doesn't contain a dot after 256 characters
-        //then return early with the same string
-        if (firstDotAfter256Characters == -1)
-            return str;
-
-        return str.substring(0, firstDotAfter256Characters + 1);
-    }
-
-    //TODO Implement parseDate method
     private String parseDate(String webPublicationDate) {
         String date = "";
 
@@ -130,7 +110,7 @@ public class NewsItem {
         return datePublished;
     }
 
-    public String getBodyTextSummary() {
-        return bodyTextSummary;
+    public String getTrailText() {
+        return trailText;
     }
 }

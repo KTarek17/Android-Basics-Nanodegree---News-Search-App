@@ -84,7 +84,7 @@ public class QueryUtils {
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", query);
-        uriBuilder.appendQueryParameter("show-blocks", "body");
+        uriBuilder.appendQueryParameter("show-fields", "trailText");
         uriBuilder.appendQueryParameter("page-size", Integer.toString(queryPageSize));
         uriBuilder.appendQueryParameter("order-by", queryOrderBy);
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_API_KEY);
