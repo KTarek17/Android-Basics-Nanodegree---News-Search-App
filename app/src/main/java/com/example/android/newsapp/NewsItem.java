@@ -13,12 +13,12 @@ import java.util.Date;
 public class NewsItem {
     private static final String TAG = "NewsItem";
 
-    final private String title;
-    final private String author;
-    final private String section;
-    final private String webUrlString;
-    final private String datePublished;
-    final private String trailText;
+    private final String title;
+    private final String author;
+    private final String section;
+    private final String webUrlString;
+    private final String datePublished;
+    private final String trailText;
 
     /**
      * Standard constructor

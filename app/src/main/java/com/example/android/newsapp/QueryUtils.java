@@ -32,6 +32,10 @@ public class QueryUtils {
     //The query used. Search queries can separated by AND/OR/NOT, with %20 instead of spaces
     private static String query = "";
 
+    //The from and to date from which the news items are taken from. Format: yyyy-mm-dd
+    private static String fromDate = "2014-02-16";
+    private static String toDate = "2016-10-10";
+
     //The order with which the queries are organized by. Values: newest, oldest or relevance
     private static String queryOrderBy = "relevance";
 
@@ -84,9 +88,11 @@ public class QueryUtils {
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", query);
-        uriBuilder.appendQueryParameter("show-fields", "trailText");
+        uriBuilder.appendQueryParameter("from-date", fromDate);
+        uriBuilder.appendQueryParameter("to-date", toDate);
         uriBuilder.appendQueryParameter("page-size", Integer.toString(queryPageSize));
         uriBuilder.appendQueryParameter("order-by", queryOrderBy);
+        uriBuilder.appendQueryParameter("show-fields", "trailText");
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_API_KEY);
 
         URL url = null;
@@ -209,6 +215,14 @@ public class QueryUtils {
 
     public static void setQuery(String query) {
         QueryUtils.query = query;
+    }
+
+    public static void setFromDate(String fromDate) {
+        QueryUtils.fromDate = fromDate;
+    }
+
+    public static void setToDate(String toDate) {
+        QueryUtils.toDate = toDate;
     }
 
     public static void setQueryOrderBy(String queryOrderBy) {
