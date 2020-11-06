@@ -3,4 +3,5 @@
     <string name="query_hint">What would you like to know about?</string>
     <string name="searchButtonDescription">Search Button</string>
     <string name="no_data">Your Query Didn\'t Return Any Data</string>
+    <string name="no_internet">No Network Connection</string>
 </resources>

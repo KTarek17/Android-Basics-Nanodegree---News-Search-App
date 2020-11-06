@@ -1,7 +1,10 @@
 package com.example.android.newsapp;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView emptyView;
     private ProgressBar progressBar;
 
+    ConnectivityManager connMgr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +54,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBar = findViewById(R.id.progressBar);
         showProgressBar();
 
-        getLoaderManager().initLoader(0, null, this);
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            getLoaderManager().initLoader(0, null, this);
+        } else
+            showEmptyView(R.string.no_internet);
 
         EditText query = findViewById(R.id.query);
         ImageButton search = findViewById(R.id.searchButton);
@@ -71,12 +82,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     /**
-     * This method checks if the {@link #currentRequestURL} has changed, and if  that's the case,
+     * This method checks if the {@link #currentRequestURL} has changed, and if that's the case,
      * then it assigns the newRequestURL to the {@link #currentRequestURL}
+     * If there is no connection, it returns early after setting the showing the {@link #emptyView}
      */
     private void checkForUrlChanges() {
+
+        //Return early without doing anything if there is no connection
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            showEmptyView(R.string.no_internet);
+            return;
+        }
+
         String newRequestURL = QueryUtils.getRequestUrl().toString();
-        if (!currentRequestURL.equals(newRequestURL)) {
+        if (!currentRequestURL.equals(newRequestURL) || emptyView.getVisibility() == View.VISIBLE) {
             Log.i(TAG, "URL has changed!");
             showProgressBar();
             currentRequestURL = newRequestURL;
@@ -97,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<List<NewsItem>> loader, List<NewsItem> data) {
         Log.i(TAG, "onLoadFinished() has been called!");
         if (data.isEmpty()) {
-            showEmptyView();
+            showEmptyView(R.string.no_data);
             newsAdapter.clearNewsList();
         } else if (!newsList.containsAll(data)) {
             showRecyclerView();
@@ -109,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<List<NewsItem>> loader) {
         Log.i(TAG, "Loader reset!");
         newsAdapter.clearNewsList();
-        showEmptyView();
+        showEmptyView(R.string.no_data);
     }
 
     //endregion
@@ -128,10 +148,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         emptyView.setVisibility(View.GONE);
     }
 
-    private void showEmptyView() {
+    private void showEmptyView(@StringRes int stringId) {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
+        emptyView.setText(stringId);
     }
 
     //endregion

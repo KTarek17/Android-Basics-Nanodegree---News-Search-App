@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NewsItem {
+    private static final String TAG = "NewsItem";
+
     final private String title;
     final private String author;
     final private String section;
@@ -85,7 +87,11 @@ public class NewsItem {
 
     //TODO Implement parseDate method
 //    private String parseDate(String webPublicationDate) {
+//        String date = "";
 //
+//
+//
+//        return date;
 //    }
 
     public String getTitle() {
