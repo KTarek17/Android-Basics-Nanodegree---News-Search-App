@@ -46,9 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         emptyView = findViewById(R.id.emptyView);
         progressBar = findViewById(R.id.progressBar);
-
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+        showProgressBar();
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View v) {
                 query.clearFocus();
                 String queryStr = query.getText().toString();
-                String logMessage = "User entered: " + queryStr;
-                Log.d(TAG, logMessage);
                 QueryUtils.setQuery(queryStr);
                 checkForUrlChanges();
             }
@@ -88,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    //region Loader methods
+
     @Override
     public Loader<List<NewsItem>> onCreateLoader(int id, Bundle args) {
         Log.i(TAG, "New loader created!");
@@ -114,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         showEmptyView();
     }
 
+    //endregion
+
+    //region Visibility Helper Methods
+
     private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
@@ -131,4 +133,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerView.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
     }
+
+    //endregion
 }

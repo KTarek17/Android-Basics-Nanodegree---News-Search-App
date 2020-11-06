@@ -5,21 +5,22 @@
     <style name="baseTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/smallMarginPadding</item>
+        <item name="android:padding">@dimen/smallMarginPadding</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="styleTitle" parent="baseTextStyle">
         <item name="android:textSize">@dimen/dimenTitleSize</item>
-        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="styleSecondaryText" parent="baseTextStyle">
         <item name="android:textSize">@dimen/dimenSecondaryTextSize</item>
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
     </style>
 
     <style name="styleBodyTextSummary" parent="baseTextStyle">
-        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 </resources>

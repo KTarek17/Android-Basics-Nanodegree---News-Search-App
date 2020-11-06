@@ -53,7 +53,7 @@
             android:layout_centerInParent="true"
             android:textSize="@dimen/dimenTitleSize"
             android:text="@string/no_data"
-            android:textColor="?attr/colorSecondaryVariant"
+            android:textColor="?attr/colorOnSecondary"
             tools:text="Your Query Didn't Return Any Data" />
 
         <ProgressBar
