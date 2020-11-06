@@ -1,7 +1,14 @@
 package com.example.android.newsapp;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class NewsItem {
     private static final String TAG = "NewsItem";
@@ -56,7 +63,7 @@ public class NewsItem {
 
         this.section = jsonObject.getString("sectionName");
         this.webUrlString = jsonObject.getString("webUrl");
-        this.datePublished = jsonObject.getString("webPublicationDate");
+        this.datePublished = parseDate(jsonObject.getString("webPublicationDate"));
 
         JSONObject blocks = jsonObject.optJSONObject("blocks");
 
@@ -86,13 +93,22 @@ public class NewsItem {
     }
 
     //TODO Implement parseDate method
-//    private String parseDate(String webPublicationDate) {
-//        String date = "";
-//
-//
-//
-//        return date;
-//    }
+    private String parseDate(String webPublicationDate) {
+        String date = "";
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
+        try {
+            @SuppressLint("SimpleDateFormat")
+            Date dateObject = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(webPublicationDate);
+            date = dateFormatter.format(dateObject);
+        } catch (ParseException e) {
+            Log.e(TAG, "Data Error Occurred!", e);
+            e.printStackTrace();
+        }
+
+        return date;
+    }
 
     public String getTitle() {
         return title;
